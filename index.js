@@ -5,7 +5,6 @@ var fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
 var inherits = require('inherits');
 
-
 module.exports = MongoDBCollectionDump;
 function MongoDBCollectionDump(connectURI, collection, stream) {
   if (!(this instanceof MongoDBCollectionDump)) return new MongoDBCollectionDump(connectURI, collection, stream);
