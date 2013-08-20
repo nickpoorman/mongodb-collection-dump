@@ -11,7 +11,15 @@ Specify a mongoDB connect URI, the collection, and a path to the target file.
 Dump a collection to stream:
 
 ``` js
-var todo = null;
+var d = dump('mongodb://127.0.0.1/test_db', 'testcollection', through(write));
+
+function write(row) {
+  console.log(row);
+}
+
+d.on('end', function() {
+  console.log("done");
+});
 ```
 
 # methods
