@@ -22,7 +22,7 @@ function MongoDBCollectionDump(connectURI, collection) {
   var self = this;
 
   MongoClient.connect(self.connectURI, function(err, db) {
-    if (err) self.emit('error', err);
+    if (err) self.through.emit('connectError', err);
 
     var collection = db.collection(self.collection);
 

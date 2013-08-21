@@ -11,7 +11,7 @@ Specify a mongoDB connect URI, the collection, and a path to the target file.
 Dump a collection to stream:
 
 ``` js
-var d = dump('mongodb://127.0.0.1/test_db', 'testcollection', through(write));
+var d = dump('mongodb://127.0.0.1/test_db', 'testcollection').pipe(through(write));
 
 function write(row) {
   console.log(row);
@@ -28,17 +28,19 @@ d.on('end', function() {
 var dump = require('mongodb-collection-dump')
 ```
 
-## var d = dump(connectURI, collection, stream)
+## var d = dump(connectURI, collection)
 
-Create a new dump instance `d` that connects to the mongodb database at `connectURI` and dumps the entire collection to `stream`.
+dump connects to the mongodb database at `connectURI` and begins streaming the entire `collection`.
+
+The returned object `d` is an instance of [through](https://github.com/dominictarr/through). 
 
 # events
 
-## d.on('end', function () {})
+## d.on([through](https://github.com/dominictarr/through) events)
 
-This event fires when no more data will be provided from the database and after the database connection has closed.
+Any event [through](https://github.com/dominictarr/through) normally emits.
 
-## d.on('error', function (err) {})
+## d.on('connectError', function (err) {})
 
 Emitted when there is a error connecting to the database.
 
