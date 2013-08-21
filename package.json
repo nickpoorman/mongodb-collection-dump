@@ -1,6 +1,6 @@
 {
   "name": "mongodb-collection-dump",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Dumps a mongodb collection to a stream.",
   "main": "index.js",
   "scripts": {
