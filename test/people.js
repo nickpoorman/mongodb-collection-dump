@@ -21,7 +21,7 @@ test('dump test collection', function(t) {
 
   var rows = [];
 
-  var d = dump('mongodb://127.0.0.1/test_db', 'testcollection', through(write, end));
+  var d = dump('mongodb://127.0.0.1/test_db', 'testcollection').pipe(through(write, end));
 
   function write(row) {
     rows.push(row)

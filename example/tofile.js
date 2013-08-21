@@ -1,17 +1,18 @@
-var fs = require('fs');
+console.log('Version: ' + process.version);
 var dump = require('mongodb-collection-dump');
+var JSONStream = require('JSONStream');
+var through = require('through')
 
-var collectionDumpFile = '/tmp/collection-dump.json';
+var fs = require('fs');
 
-var f = fs.createWriteStream(collectionDumpFile);
+var file = '/tmp/output';
 
-var d = dump('mongodb://127.0.0.1/test_db', 'testcollection', f);
+var f = fs.createWriteStream(file);
+var j = JSONStream.stringify();
 
-d.on('end', function(){
-  console.log("done in write");
-});
+j.pipe(f);
 
-d.on('error', function(err){
-  console.log("there was an error");
-  console.log(err);
+f.on('open', function() {
+  var d = dump('mongodb://127.0.0.1/test_db', 'testcollection');
+  d.pipe(j);
 });

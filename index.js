@@ -1,18 +1,23 @@
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
 var fs = require('fs');
+var through = require('through');
 
 var MongoClient = require('mongodb').MongoClient;
 var inherits = require('inherits');
 
 module.exports = MongoDBCollectionDump;
-function MongoDBCollectionDump(connectURI, collection, stream) {
-  if (!(this instanceof MongoDBCollectionDump)) return new MongoDBCollectionDump(connectURI, collection, stream);
-  EventEmitter.call(this);
+
+function MongoDBCollectionDump(connectURI, collection) {
+  if (!(this instanceof MongoDBCollectionDump)) return new MongoDBCollectionDump(connectURI, collection);
 
   this.connectURI = connectURI;
   this.collection = collection;
-  this.stream = stream;
+
+  this.through = through(function write(data) {
+      this.queue(data) //data *must* not be null
+    },
+    function end() { //optional
+      this.queue(null)
+    });
 
   var self = this;
 
@@ -25,11 +30,10 @@ function MongoDBCollectionDump(connectURI, collection, stream) {
 
     s.on("end", function() {
       db.close();
-      self.emit('end');     
     });
-    
-    s.pipe(self.stream);
-  });
-}
 
-inherits(MongoDBCollectionDump, EventEmitter);
+    s.pipe(self.through);
+  });
+
+  return this.through;
+}
