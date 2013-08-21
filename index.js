@@ -2,7 +2,6 @@ var fs = require('fs');
 var through = require('through');
 
 var MongoClient = require('mongodb').MongoClient;
-var inherits = require('inherits');
 
 module.exports = MongoDBCollectionDump;
 
