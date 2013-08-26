@@ -32,13 +32,13 @@ var dump = require('mongodb-collection-dump')
 
 dump connects to the mongodb database at `connectURI` and begins streaming the entire `collection`.
 
-The returned object `d` is an instance of [through](https://github.com/dominictarr/through). 
+The returned object `s` is a [Stream](http://nodejs.org/api/stream.html).
 
 # events
 
-## d.on([through](https://github.com/dominictarr/through) events)
+## d.on([Stream](http://nodejs.org/api/stream.html) events)
 
-Any event [through](https://github.com/dominictarr/through) normally emits.
+Any event [Stream](http://nodejs.org/api/stream.html) normally emits.
 
 ## d.on('connectError', function (err) {})
 
